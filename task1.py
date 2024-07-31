@@ -1,35 +1,45 @@
-class ToDoList:
-    def _init_(self):
-        self.tasks = []
+tasks = []
 
-    def add_task(self, task):
-        self.tasks.append(task)
-        print(f'Task "{task}" added to the list.')
+def add_task(description):
+    task = {
+        'id': len(tasks) + 1,
+        'description': description,
+        'status': 'incomplete'
+    }
+    tasks.append(task)
+    print(f"Task added: {task}")
 
-    def delete_task(self, task_number):
-        if 0 <= task_number < len(self.tasks):
-            removed_task = self.tasks.pop(task_number)
-            print(f'Task "{removed_task}" removed from the list.')
-        else:
-            print('Invalid task number.')
+def update_task(task_id, new_description):
+    for task in tasks:
+        if task['id'] == task_id:
+            task['description'] = new_description
+            print(f"Task updated: {task}")
+            return
+    print("Task not found.")
 
-    def view_tasks(self):
-        if not self.tasks:
-            print('No tasks in the list.')
-        else:
-            print('To-Do List:')
-            for idx, task in enumerate(self.tasks, start=1):
-                print(f'{idx}. {task}')
+def delete_task(task_id):
+    global tasks
+    tasks = [task for task in tasks if task['id'] != task_id]
+    print(f"Task {task_id} deleted.")
 
-def main():
-    todo_list = ToDoList()
-    while True:
-        print('\nOptions:')
-        print('1. Add Task')
-        print('2. Delete Task')
-        print('3. View Tasks')
-        print('4. Exit')
-        choice = input('Enter your choice: ')
-        if choice == '1':
-            task = input('Enter the task: ')
-            todo_
+def view_tasks():
+    for task in tasks:
+        print(task)
+
+def mark_task_completed(task_id):
+    for task in tasks:
+        if task['id'] == task_id:
+            task['status'] = 'completed'
+            print(f"Task completed: {task}")
+            return
+    print("Task not found.")
+
+# Example usage
+add_task("Buy groceries")
+add_task("Finish project")
+view_tasks()
+update_task(1, "Buy groceries and cook dinner")
+mark_task_completed(2)
+view_tasks()
+delete_task(1)
+view_tasks()
